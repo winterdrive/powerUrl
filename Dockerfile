@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Run app.py when the container launches
-CMD ["python3", "app.py"]
+CMD ["gunicorn", "-w", "1", "--bind", "0.0.0.0:5000", "app:app"]
 
 # docker build -t powerurl .
 # docker run -d -p 5000:5000 -v ${PWD}:/powerUrl --name powerurl powerurl

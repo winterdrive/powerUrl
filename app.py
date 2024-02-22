@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, redirect, render_template
 
 app = Flask(__name__)
@@ -39,4 +41,4 @@ def redirect_to_long_url(short_url):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(port=os.getenv("PORT", default=5000), debug=True)
