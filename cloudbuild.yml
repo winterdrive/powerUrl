@@ -1,17 +1,16 @@
 steps:
-  # Build the Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/powerurl', '.']
+# Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/powerurl', '.']
 
-  # Push the Docker image to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/powerurl']
+# Push the Docker image to Google Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/powerurl']
+
+# Run the Docker container
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['run', '-d', '-p', '5000:5000', 'gcr.io/$PROJECT_ID/powerurl']
 
 images:
   # Define the Docker image to be pushed to Container Registry
   - 'gcr.io/$PROJECT_ID/powerurl'
-
-# Only trigger the build on changes to the Dockerfile or requirements.txt
-trigger:
-  # Specify the files to watch for changes
-  filename: ['Dockerfile', 'requirements.txt']
