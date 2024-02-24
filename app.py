@@ -9,14 +9,10 @@ from os import environ
 from dotenv import load_dotenv
 
 load_dotenv()
+line_bot_api = LineBotApi(environ.get("LINE_BOT_API_TOKEN"))
+handler = WebhookHandler(environ.get("LINE_BOT_CHANNEL_SECRET"))
 
 app = Flask(__name__)
-line_bot_api = LineBotApi(
-    environ.get("LINE_BOT_API_TOKEN")
-)
-handler = WebhookHandler(
-    environ.get("LINE_BOT_CHANNEL_SECRET")
-)
 
 url_mapping = {}
 
