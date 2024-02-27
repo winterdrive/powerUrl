@@ -1,16 +1,27 @@
 steps:
-# Build the Docker image
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/powerurl', '.']
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/powerurl:$COMMIT_SHA", "."]
 
-# Push the Docker image to Google Container Registry
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/powerurl']
+  # Push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/powerurl:$COMMIT_SHA"]
 
-# Run the Docker container
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['run', '-d', '-p', '5000:5000', 'gcr.io/$PROJECT_ID/powerurl']
+  # Deploy container image to Cloud Run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "powerurl"
+      - "--image"
+      - "gcr.io/$PROJECT_ID/powerurl:$COMMIT_SHA"
+      - "--region"
+      - "asia-east1"
+      - "--platform=managed"
+      - "--allow-unauthenticated"
 
 images:
-  # Define the Docker image to be pushed to Container Registry
-  - 'gcr.io/$PROJECT_ID/powerurl'
+  - "gcr.io/$PROJECT_ID/powerurl:$COMMIT_SHA"
+
+timeout: 900s
