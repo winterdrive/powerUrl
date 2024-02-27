@@ -20,3 +20,4 @@ CMD ["gunicorn", "-w", "1", "--bind", "0.0.0.0:5000", "app:app"]
 # docker run -d -p 5000:5000 -v ${PWD}:/powerUrl --name powerurl powerurl
 
 
+
