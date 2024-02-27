@@ -23,6 +23,7 @@ steps:
       - "asia-east1"
       - "--platform=managed"
       - "--allow-unauthenticated"
+      - "--port=5000"  # Expose port 5000
 
 images:
   - "gcr.io/$PROJECT_ID/powerurl:$COMMIT_SHA"
